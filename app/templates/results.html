@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends "base.html" %}
+{% block content %}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul>
+    {% for message in messages %}
+    <div class="alert alert-success">
+        {{message}}
+    </div>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+{% if results %}
+<table class="table text-center">
+    <thead>
+    <tr>
+        <th style="text-align: center;">Heimteam</th>
+        <th style="text-align: center;">Gastteam</th>
+        <th style="text-align: center;">Ergebnis</th>
+        <th style="text-align: center;">Wann</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for result in results %}
+    {% if result.homescore > result.guestscore %}
+    <tr class="alert alert-success">
+        <td style="text-align: center;">{{result.home.name}}</td>
+        <td style="text-align: center;">{{result.guest.name}}</td>
+        <td style="text-align: center;">{{result.homescore}} : {{result.guestscore}}</td>
+        <td style="text-align: center;">{{result.date.strftime("%d.%m.%Y - %H:%M")}}</td>
+    </tr>
+    {% elif result.homescore < result.guestscore %}
+    <tr class="alert alert-danger">
+        <td style="text-align: center;">{{result.home.name}}</td>
+        <td style="text-align: center;">{{result.guest.name}}</td>
+        <td style="text-align: center;">{{result.homescore}} : {{result.guestscore}}</td>
+        <td style="text-align: center;">{{result.date.strftime("%d.%m.%Y - %H:%M")}}</td>
+    </tr>
+    {% else %}
+    <tr class="alert alert-warning">
+        <td style="text-align: center;">{{result.home.name}}</td>
+        <td style="text-align: center;">{{result.guest.name}}</td>
+        <td style="text-align: center;">{{result.homescore}} : {{result.guestscore}}</td>
+        <td style="text-align: center;">{{result.date.strftime("%d.%m.%Y - %H:%M")}}</td>
+    </tr>
+    {% endif %}
+    {% endfor %}
+    </tbody>
+</table>
+<form method="post">
+    {{form.hidden_tag()}}
+    <div class="control-group">
+        <input type="submit"
+               onclick="return confirm('Wirklich alle Ergebnisse löschen?')"
+               value="Ergebnisse löschen" name="delete_results">
+    </div>
+</form>
+{% else %}
+<div class="alert alert-info">
+    <strong>Haha! </strong>Keine Ergebnisse vorhanden.
+</div>
+{% endif %}
+{% endblock %}

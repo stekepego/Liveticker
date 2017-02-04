@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends "base.html" %}
+{% block content %}
+
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul>
+    {% for message in messages %}
+    <div class="alert alert-danger">
+        {{message}}
+    </div>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+
+<div class="container">
+
+    <legend>Ergebnis eintragen</legend>
+    <form class="form-horizontal" action="" method="post" name="add_result">
+        {{ form.hidden_tag() }}
+        <datalist id="teamnames">
+            {% for teamname in teamnames %}
+            <option value={{teamname}}></option>
+            {% endfor %}
+        </datalist>
+
+        <div class="form-group">
+            <div class="col-xs-2">
+                <label style="align-vertical:center" for="hometeam">Heimteam</label></div>
+            <div class="col-xs-5">
+                {{ form.hometeam(list="teamnames",size=20,class_="form-control") }}
+            </div>
+            <div class="col-xs-4">{{
+                form.homescore(size=10,class_="form-control") }}
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-2"><label for="guestteam">Gastteam</label></div>
+            <div class="col-xs-5"> {{form.guestteam(list="teamnames", size=20,class_="form-control")}}</div>
+            <div class="col-xs-4">{{form.guestscore(size=10,class_="form-control")}}</div>
+        </div>
+        <div class="form-group">
+            <span class="col-xs-1"></span>
+            <input type="submit" value="Abschicken">
+        </div>
+    </form>
+</div>
+{% endblock %}

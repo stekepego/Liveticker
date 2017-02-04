@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% extends "base.html" %}
+{% block content %}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<ul>
+    {% for message in messages %}
+    <div class="alert alert-success">
+        {{message}}
+    </div>
+    {% endfor %}
+</ul>
+{% endif %}
+{% endwith %}
+
+<h2>Liste von Teams</h2>
+{% if teams %}
+<div class="list-group">
+    {% for team in teams %}
+    <a href="" class="list-group-item">{{ team.name }}
+        <span class="pull-right">
+            <button type="button" class="btn-xs btn-default" onclick="location.href={{team.url}}">
+            <span href="google" class="glyphicon glyphicon-edit">
+            </span></button>
+
+            <button type="button" class="btn-xs btn-default" onclick="location.href={{team.url}}">
+            <span href="google" class="glyphicon glyphicon-globe">
+            </span></button>
+
+        </span></a>
+    {% endfor %}
+</div>
+{% else %}
+
+<div class="alert alert-info">
+    Noch keine Teams bekannt
+</div>
+
+{% endif %}
+
+{% endblock %}
